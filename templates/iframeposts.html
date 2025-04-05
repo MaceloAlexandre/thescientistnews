@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/iframeposts.css') }}">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Seção do Mural -->
+    <section class="featured-posts">
+        <div class="featured-main">
+            <div class="featured-image">
+                <img src="{{ url_for('static', filename='imagens/featured1.jpg') }}" alt="Post em destaque">
+            </div>
+            <a href="#" class="featured-content">
+                <span class="category-tag">Tecnologia</span>
+                <h2>Novo Smartphone com Tela Dobrável Chega ao Mercado com Preço Acessível</h2>
+                <p class="excerpt">A marca XYZ acaba de lançar seu primeiro smartphone com tela dobrável, 
+                    prometendo resistência e desempenho por um preço 30% menor que os concorrentes.
+                </p>
+            </a>
+        </div>
+        
+        <div class="featured-secondary">
+            <a href="#" class="secondary-post">
+                <div class="secondary-image">
+                    <img src="{{ url_for('static', filename='imagens/featured2.png') }}" alt="Post secundário">
+                </div>
+                <div class="secondary-content">
+                    <span class="category-tag2">Entretenimento</span>
+                    <h3>Série brasileira indicada ao Grammy Internacional</h3>
+                </div>
+            </a>
+            
+            <a href="#" class="secondary-post">
+                <div class="secondary-image">
+                    <img src="{{ url_for('static', filename='imagens/featured3.png') }}" alt="Post secundário">
+                </div>
+                <div class="secondary-content">
+                    <span class="category-tag3">Ciência</span>
+                    <h3>Pesquisadores Brasileiros Descobrem Molécula que Pode Inibir Avanço do Alzheimer</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    
+    <section class="posts">
+        {% for post in posts %}
+        <article class="post card  {{ post.categoria }}">
+            <div class="post-header">
+                <span class="user-name">{{ post.autor }}</span>
+                <span class="post-date">{{ post.data_postagem.strftime('%d/%m/%Y %H:%M') }}</span>
+                <span class="post-category {{ post.categoria }}">{{ post.categoria }}</span>
+            </div>
+            <a href="{{ url_for('post', id=post.id) }}" class="post-link">
+                <div class="post-content">        
+
+                    {% if post.midia %}
+                        <div class="post-media">
+                            <img src="{{ url_for('static', filename=post.midia) }}" alt="Mídia simulada">
+                        </div>
+                    {% endif %}
+                    <div class="post-footer">
+                        <h5>{{ post.titulo }}</h5>
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </section>
+</body>
+</html>
+

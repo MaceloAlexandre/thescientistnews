@@ -1,0 +1,249 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-y: hidden;
+}
+
+/* Header Unificado */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 5rem;
+    background-color: #0d0d0d;
+    color: white;
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+}
+
+/* Logo */
+.logo-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    height: 60px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Navbar Integrada */
+.navbar {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-item a:hover {
+    background-color: #3a516e;
+}
+
+.nav-item a i {
+    margin-right: 8px;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 0 0 4px 4px;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li a {
+    color: #333;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f5f7fa;
+    color: #2B5F8B;
+}
+
+/* Seções Adicionais (Saúde, Sobre, Contato) */
+.nav-item.health a {
+    color: #ffffff;
+}
+
+.nav-item.about a {
+    color: #ffffff;
+}
+
+.nav-item.contact a {
+    color: #ffffff;
+}
+
+/* User Actions */
+.user-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logout-btn {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    background-color: #e74c3c;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+.search-btn {
+    color: white;
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+}
+
+.search-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Menu Hamburguer (Mobile) */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+/* Conteúdo Principal */
+main {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: calc(100vh - 150px); /* Altura mínima = viewport - altura do header */
+    display: flex;
+    flex-direction: column;
+}
+
+#iframeposts {
+    width: 100%;
+    flex: 1; /* Ocupa todo o espaço disponível */
+    min-height: calc(100vh - 60px); /* Altura mínima = viewport - altura do header */
+    border: none;
+    border-radius: 8px;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .header {
+        padding: 0.5rem 1rem;
+    }
+    
+    .navbar {
+        order: 3;
+        width: 100%;
+        display: none;
+        background-color: #1a3a5a;
+        padding: 0;
+    }
+    
+    .header.active .navbar {
+        display: block;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .nav-item a {
+        padding: 1rem;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        display: none;
+        width: 100%;
+        box-shadow: none;
+    }
+    
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+    
+    .hamburger {
+        display: block;
+    }
+    
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
