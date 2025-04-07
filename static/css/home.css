@@ -247,3 +247,12 @@ main {
     }
 }
 
+/* Estilo específico para o botão de admin */
+.nav-item.admin a {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.nav-item.admin a:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}

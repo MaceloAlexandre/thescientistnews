@@ -3,9 +3,32 @@ from werkzeug.utils import secure_filename
 import os
 import datetime as datetime
 
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.secret_key = 'MySecretKey*123'
+
+
+usuarios = [
+    {
+        'nome': 'Macelo Alexandre',
+        'email': 'macelo_example@hotmail.com',
+        'senha': '123',
+        'is_adm': True  # Este é um administrador
+    },
+    {
+        'nome': 'Usuário Comum 1',
+        'email': 'usuario1@email.com',
+        'senha': 'senha123',
+        'is_adm': False
+    },
+    {
+        'nome': 'Usuário Comum 2',
+        'email': 'usuario2@email.com',
+        'senha': 'senha456',
+        'is_adm': False
+    }
+]
 
 
 posts = [
@@ -46,15 +69,18 @@ posts = [
         "midia": "imagens/monte.png"
     }
 ]
-###testestetesasda
+
 
 @app.route('/')
 def home():
-    if 'user' in session:
-        return render_template('home.html')
-    else: 
+    if 'user' not in session:
         return redirect(url_for('login'))
     
+    # Verifica se é admin
+    is_admin = session['user'].get('is_adm', False)
+    return render_template('home.html',
+                         user=session['user'],
+                         is_admin=is_admin,)
 @app.route('/login')
 def login():
     return render_template('login.html')
@@ -63,26 +89,36 @@ def login():
 def verificarlogin():
 
     if request.method == 'POST':
-
-        login = request.form.get('email')
+        email = request.form.get('email')
         senha = request.form.get('senha')
 
-        email_usuario = "macelo_example@hotmail.com"
-        senha_usuario = "123"
+        # Procura o usuário na lista
+        usuario_encontrado = None
+        for usuario in usuarios:
+            if usuario['email'] == email and usuario['senha'] == senha:
+                usuario_encontrado = usuario
+                break
 
-        if login == email_usuario and senha == senha_usuario:
-            session['user'] = login
-            print(session)
-            return render_template('home.html', name=session['user'][1], profession=session['user'][2])
+        if usuario_encontrado:
+            # Armazena informações na sessão
+            session['user'] = {
+                'nome': usuario_encontrado['nome'],
+                'email': usuario_encontrado['email'],
+                'is_adm': usuario_encontrado['is_adm']
+            }
+            
+            # Redireciona para a home com os dados do usuário
+            return redirect(url_for('home'))
         else:
-            flash('Usuário ou senha incorretos', 'error')
+            flash('E-mail ou senha incorretos', 'error')
             return redirect(url_for('login'))
 
     elif request.method == 'GET' and 'user' in session:
-        return render_template('mainpage.html', name=session['user'][0], profession=session['user'][2])
+        # Se já estiver logado, redireciona para home
+        return redirect(url_for('home'))
 
-    else:
-        return render_template('ddsadas.html')
+    # Se não for POST nem GET com sessão, redireciona para login
+    return redirect(url_for('login'))
     
 
 @app.route('/logout')
@@ -132,7 +168,12 @@ def post(id):
         return "Post não encontrado", 404
     return render_template('post.html', post=post)
 
-
+@app.route('/painel_admin')
+def painel_admin():
+    if 'user' not in session or not session['user'].get('is_adm', False):
+        return redirect(url_for('home'))
+    
+    return render_template('painel_admin.html', posts=posts, user=session['user'])
 if __name__ == "__main__":
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     app.run(debug=True)
