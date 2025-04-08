@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - TheScientistNews</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/painel_admin.css') }}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+                <img src="{{ url_for('static', filename='imagens/testar4.png') }}" alt="The Scientist News Logo" class="logo">
+        </div>
+
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#"><i class="fas fa-atom"></i> Ciência <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/ciencia/fisica">Física</a></li>
+                        <li><a href="/ciencia/quimica">Química</a></li>
+                        <li><a href="/ciencia/biologia">Biologia</a></li>
+                        <li><a href="/ciencia/astronomia">Astronomia</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="/tecnologia"><i class="fas fa-microchip"></i> Tecnologia</a></li>
+                <li class="nav-item health"><a href="/saude"><i class="fas fa-heartbeat"></i> Saúde</a></li>
+                <li class="nav-item about"><a href="/sobre"><i class="fas fa-info-circle"></i> Sobre Nós</a></li>
+                <li class="nav-item contact"><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
+                {% if is_admin %}
+            <li class="nav-item admin">
+                <a href="{{ url_for('painel_admin') }}"><i class="fas fa-user-shield"></i> Painel Admin</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <div class="user-actions">
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <span class="logout-text">Logout</span>
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <img src="{{ url_for('static', filename='imagens/admin-avatar.png') }}" alt="Admin Avatar" class="admin-avatar">
+                <h3>Macelo Alexandre</h3>
+                <p>Administrador</p>
+            </div>
+            
+            <nav class="admin-menu">
+                <ul>
+                    <li class="active" data-section="criar">
+                        <a href="#"><i class="fas fa-plus-circle"></i> Criar Postagem</a>
+                    </li>
+                    <li data-section="gerenciar">
+                        <a href="#"><i class="fas fa-edit"></i> Gerenciar Posts</a>
+                    </li>
+                    <li data-section="usuarios">
+                        <a href="#"><i class="fas fa-users"></i> Usuários</a>
+                    </li>
+                    <li data-section="estatisticas">
+                        <a href="#"><i class="fas fa-chart-line"></i> Estatísticas</a>
+                    </li>
+                    <li data-section="config">
+                        <a href="#"><i class="fas fa-cog"></i> Configurações</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            
+<!-- Seção: Criar Postagem -->
+<section class="admin-section active" id="criar">
+    <h2 class="section-title"><i class="fas fa-plus-circle"></i> Nova Postagem</h2>
+    
+    <form id="post-form" class="post-form" method="POST" action="/postar" enctype="multipart/form-data">
+        <!-- Upload de Imagem -->
+        <div class="form-group image-upload-container">
+            <label>Imagem Destacada (Proporção 16:9)</label>
+            <div class="image-preview" id="imagePreview">
+                <div class="placeholder">
+                    <i class="fas fa-image"></i>
+                    <p>Nenhuma imagem selecionada</p>
+                </div>
+                <img id="previewImage" src="" alt="Pré-visualização">
+            </div>
+            <label for="file-upload" class="upload-btn">
+                <i class="fas fa-upload"></i> Selecionar Imagem
+            </label>
+            <input type="file" id="file-upload" name="midia" accept="image/*">
+        </div>
+
+        <!-- Título -->
+        <div class="form-group">
+            <label for="post-title">Título da Postagem</label>
+            <input type="text" id="post-title" name="titulo" class="form-control" placeholder="Digite o título" required>
+        </div>
+
+        <!-- Categoria -->
+        <div class="form-group">
+            <label for="post-category">Categoria</label>
+            <select id="post-category" name="categoria" class="form-control" required>
+                <option value="">Selecione uma categoria</option>
+                <option value="fisica">Física</option>
+                <option value="quimica">Química</option>
+                <option value="biologia">Biologia</option>
+                <option value="astronomia">Astronomia</option>
+                <option value="tecnologia">Tecnologia</option>
+                <option value="saude">Saúde</option>
+            </select>
+        </div>
+
+        <!-- Resumo da Matéria -->
+        <div class="form-group">
+            <label for="post-summary">Resumo da Matéria</label>
+            <textarea id="post-summary" name="resumo" class="form-control" rows="3" placeholder="Digite um resumo curto sobre a matéria" required></textarea>
+        </div>
+
+        <!-- Matéria (texto principal) -->
+        <div class="form-group">
+            <label for="post-materia">Matéria (Corpo Principal)</label>
+            <textarea id="post-materia" name="materia" class="form-control" rows="10" placeholder="Digite o conteúdo completo da matéria..." required></textarea>
+        </div>
+
+        <!-- Ações -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Publicar Postagem
+            </button>
+            <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-eraser"></i> Limpar
+            </button>
+        </div>
+    </form>
+</section>
+
+            <!-- Seção: Gerenciar Posts -->
+            <section class="admin-section" id="gerenciar">
+                <h2 class="section-title"><i class="fas fa-edit"></i> Gerenciar Posts</h2>
+                <p>Aqui você poderá editar, excluir ou agendar postagens existentes.</p>
+            </section>
+
+            <!-- Seção: Usuários -->
+            <section class="admin-section" id="usuarios">
+                <h2 class="section-title"><i class="fas fa-users"></i> Gerenciar Usuários</h2>
+                <p>Lista de usuários, permissões e status.</p>
+            </section>
+
+            <!-- Seção: Estatísticas -->
+            <section class="admin-section" id="estatisticas">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Estatísticas</h2>
+                <p>Visualizações, cliques, engajamento e outros dados.</p>
+            </section>
+
+            <!-- Seção: Configurações -->
+            <section class="admin-section" id="config">
+                <h2 class="section-title"><i class="fas fa-cog"></i> Configurações</h2>
+                <p>Preferências do sistema e personalizações.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/painel_admin.js') }}"></script>
+</body>
+</html>

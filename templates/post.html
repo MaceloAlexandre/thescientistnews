@@ -3,46 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
     <title>{{ post.titulo }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        .post {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .post-title {
-            color: #2c3e50;
-            margin-top: 0;
-        }
-        .post-meta {
-            color: #7f8c8d;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-        }
-        .post-text {
-            white-space: pre-line;
-        }
-        .post-category {
-            display: inline-block;
-            background-color: #e0e0e0;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-top: 10px;
-        }
-    </style>
 </head>
 <body>
+    <div class="container">
+
     <div class="post">
         <h1 class="post-title">{{ post.titulo }}</h1>
         
@@ -52,15 +18,20 @@
             <span class="post-category">{{ post.categoria }}</span>
         </div>
         
+        
         <div class="post-text">
             {{ post.texto }}
         </div>
-        
         {% if post.midia %}
         <div class="post-media">
             <img src="{{ url_for('static', filename=post.midia) }}" alt="Mídia do post" style="max-width: 100%;">
         </div>
         {% endif %}
+        <div class="post-materia">
+            {{ post.materia }}
+        </div>
     </div>
+    </div>
+
 </body>
 </html>
