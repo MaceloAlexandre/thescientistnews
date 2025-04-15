@@ -8,7 +8,23 @@ body {
     flex-direction: column;
     min-height: 100vh;
     overflow-y: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
 }
+
+/* Modo escuro */
+body.dark-mode {
+    background: #121212 !important;
+    color: #f1f1f1 !important;
+  }
+  
+  /* Modo leitura */
+  body.reading-mode {
+    background: #fefae0 !important;
+    color: #2c2c2c !important;
+
+  }
+
 
 /* Header Unificado */
 .header {
@@ -186,7 +202,6 @@ main {
     flex: 1; /* Ocupa todo o espaço disponível */
     min-height: calc(100vh - 60px); /* Altura mínima = viewport - altura do header */
     border: none;
-    border-radius: 8px;
     margin: 0;
     padding: 0;
     display: block;
@@ -249,10 +264,48 @@ main {
 
 /* Estilo específico para o botão de admin */
 .nav-item.admin a {
-    color: #4CAF50;
+    color: #ffffff;
     font-weight: 600;
 }
 
 .nav-item.admin a:hover {
     background-color: rgba(76, 175, 80, 0.1);
+}
+
+.modo-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2000;
+}
+
+.modo-toggle label {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+/* Ícone padrão */
+.modo-toggle label::before {
+    content: "\f186"; /* lua */
+}
+
+/* Ícone modo escuro */
+body.dark-mode .modo-toggle label::before {
+    content: "\f185"; /* sol */
+}
+
+/* Ícone modo leitura */
+body.reading-mode .modo-toggle label::before {
+    content: "\f5da"; /* livro */
 }

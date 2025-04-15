@@ -17,12 +17,12 @@
             <a href="#" class="featured-content">
                 <span class="category-tag">Tecnologia</span>
                 <h2>Novo Smartphone com Tela Dobrável Chega ao Mercado com Preço Acessível</h2>
-                <p class="excerpt">A marca XYZ acaba de lançar seu primeiro smartphone com tela dobrável, 
+                <p class="excerpt">A marca XYZ acaba de lançar seu primeiro smartphone com tela dobrável,
                     prometendo resistência e desempenho por um preço 30% menor que os concorrentes.
                 </p>
             </a>
         </div>
-        
+
         <div class="featured-secondary">
             <a href="#" class="secondary-post">
                 <div class="secondary-image">
@@ -33,7 +33,7 @@
                     <h3>Série brasileira indicada ao Grammy Internacional</h3>
                 </div>
             </a>
-            
+
             <a href="#" class="secondary-post">
                 <div class="secondary-image">
                     <img src="{{ url_for('static', filename='imagens/featured3.png') }}" alt="Post secundário">
@@ -46,23 +46,33 @@
         </div>
     </section>
 
-    
+
     <section class="posts">
         {% for post in posts %}
-        <article class="post card  {{ post.categoria }}">
+        <article class="post card  {{ post.categoria | replace(' ', '-') | replace('á', 'a') | replace('ã', 'a') | replace('ç', 'c') | replace('é', 'e') | replace('í', 'i') | replace('ó', 'o') | replace('ú', 'u') }}">            
             <div class="post-header">
-                <span class="user-name">{{ post.autor }}</span>
-                <span class="post-date">{{ post.data_postagem.strftime('%d/%m/%Y %H:%M') }}</span>
-                <span class="post-category {{ post.categoria }}">{{ post.categoria }}</span>
+                <span class="user-name">{{ post.nome_autor }}</span>
+                <span class="post-date">{{ post.data_postagem }}</span>
+                <span class="post-category {{ post.categoria | replace(' ', '-') | replace('á', 'a') | replace('ã', 'a') | replace('ç', 'c') | replace('é', 'e') | replace('í', 'i') | replace('ó', 'o') | replace('ú', 'u') }}">{{ post.categoria }}</span>
             </div>
             <a href="{{ url_for('post', id=post.id) }}" class="post-link">
-                <div class="post-content">        
+                <div class="post-content">
 
-                    {% if post.midia %}
-                        <div class="post-media">
-                            <img src="{{ url_for('static', filename=post.midia) }}" alt="Mídia simulada">
-                        </div>
-                    {% endif %}
+                    {% if post['midia'] %}
+    <div class="post-media">
+        {% if post['midia'][:4] == 'http' %}
+            <!-- Se for uma URL externa -->
+            <img src="{{ post['midia'] }}" alt="Mídia do post" style="max-width: 100%;">
+        {% elif post['midia'] != 'Não informado' %}
+            <!-- Se for um arquivo no servidor e a mídia for válida -->
+            <img src="{{ url_for('static', filename=post['midia']) }}" alt="Mídia do post" style="max-width: 100%;">
+        {% else %}
+            <!-- Caso contrário, se a mídia não estiver informada -->
+            <p>Imagem não disponível.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
                     <div class="post-footer">
                         <h5>{{ post.titulo }}</h5>
                     </div>
@@ -71,6 +81,7 @@
         </article>
         {% endfor %}
     </section>
+    <script src="{{ url_for('static', filename='js/mode.js') }}"></script>
 </body>
 </html>
 

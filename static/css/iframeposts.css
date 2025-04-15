@@ -4,8 +4,23 @@ body {
     background-color: #f5f7fa;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
 }
 
+/* Modo escuro */
+body.dark-mode {
+    background: #121212 !important;
+    color: #f1f1f1 !important;
+  }
+  
+  /* Modo leitura */
+  body.reading-mode {
+    background: #fefae0 !important;
+    color: #2c2c2c !important;
+
+  }
+  
 .posts {
     display: grid;
     grid-template-columns: repeat(3, 400px); /* 3 colunas de 300px cada */
@@ -95,6 +110,21 @@ body {
     margin-left: auto;  /* Empurra para a direita */
     flex-shrink: 0;  /* Nunca encolhe */
     /* (Mantenha suas cores de categoria aqui) */
+}
+
+
+.post-category.entretenimento {
+    background-color: #FF9800; /* Rosa escuro */
+    color: white;
+}
+
+.post-category.saude {
+    background-color: #61c55c; /* Verde escuro */
+    color: white;
+}
+.post-category.Nao-informado {
+    background-color: #00bcd4;  /* Azul ciano claro */
+    color: white;
 }
 
 .post-category.fisica {
@@ -378,6 +408,14 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+
+.card.saude .post-footer {
+    background-color: #61c55c; /* verde escuro */
+}
+
+.card.Nao-informado .post-footer {
+    background-color: #00bcd4; /* azul ciano claro */
+}
 /* Cores por categoria */
 .card.tecnologia .post-footer {
     background-color: #6A4C93; /* azul */

@@ -1,31 +1,29 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Menu Hamburguer
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    const navItems = document.querySelectorAll('.nav-item');
-
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-
-    // Fechar menu ao clicar em um item
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            if (item.classList.contains('dropdown')) {
-                item.classList.toggle('active');
-            } else {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    });
-
-    // Fechar menu ao clicar fora
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.navbar') && !e.target.closest('.hamburger')) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
-    });
+// Sincroniza os modos manualmente
+document.getElementById("darkmode-toggle").addEventListener("change", function () {
+    // Desmarca modo leitura se estiver marcado
+    document.getElementById("leituramode-toggle").checked = false;
+    localStorage.setItem("modo", this.checked ? "dark" : "");
+    syncIframeModo(this.checked ? "dark" : "");
 });
+
+document.getElementById("leituramode-toggle").addEventListener("change", function () {
+    // Desmarca modo escuro se estiver marcado
+    document.getElementById("darkmode-toggle").checked = false;
+    localStorage.setItem("modo", this.checked ? "leitura" : "");
+    syncIframeModo(this.checked ? "leitura" : "");
+});
+
+// Carrega modo salvo do localStorage ao abrir
+window.addEventListener("DOMContentLoaded", function () {
+    const modo = localStorage.getItem("modo");
+    document.getElementById("darkmode-toggle").checked = modo === "dark";
+    document.getElementById("leituramode-toggle").checked = modo === "leitura";
+});
+
+// Envia modo para iframe
+function syncIframeModo(modo) {
+    const iframe = document.getElementById("iframeposts");
+    if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ tipo: "modo", valor: modo }, "*");
+    }
+}

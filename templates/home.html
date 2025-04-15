@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,56 +8,76 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>The Scientist News</title>
 </head>
+
 <body>
-    <header class="header">
-        <div class="logo-container">
-                <img src="{{ url_for('static', filename='imagens/testar4.png') }}" alt="The Scientist News Logo" class="logo">
-        </div>
-
-        <nav class="navbar">
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/"><i class="fas fa-home"></i> Home</a></li>
-                <li class="nav-item dropdown">
-                    <a href="#"><i class="fas fa-atom"></i> Ciência <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/ciencia/fisica">Física</a></li>
-                        <li><a href="/ciencia/quimica">Química</a></li>
-                        <li><a href="/ciencia/biologia">Biologia</a></li>
-                        <li><a href="/ciencia/astronomia">Astronomia</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="/tecnologia"><i class="fas fa-microchip"></i> Tecnologia</a></li>
-                <li class="nav-item health"><a href="/saude"><i class="fas fa-heartbeat"></i> Saúde</a></li>
-                <li class="nav-item about"><a href="/sobre"><i class="fas fa-info-circle"></i> Sobre Nós</a></li>
-                <li class="nav-item contact"><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
-                {% if is_admin %}
-            <li class="nav-item admin">
-                <a href="{{ url_for('painel_admin') }}"><i class="fas fa-user-shield"></i> Painel Admin</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-
-        <div class="user-actions">
-            <a href="{{ url_for('logout') }}" class="logout-btn">
-                <span class="logout-text">Logout</span>
-                <i class="fas fa-sign-out-alt"></i>
-            </a>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </header>
-
     
+        <!-- Conteúdo do site -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='imagens/testar4.png') }}" alt="The Scientist News Logo" class="logo">
+            </div>
 
-    <main>
-        <div class="content">
-            <iframe id="iframeposts" src="/iframeposts"></iframe>
-        </div>
-    </main>
+            <nav class="navbar">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#"><i class="fas fa-atom"></i> Ciência <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/ciencia/fisica">Física</a></li>
+                            <li><a href="/ciencia/quimica">Química</a></li>
+                            <li><a href="/ciencia/biologia">Biologia</a></li>
+                            <li><a href="/ciencia/astronomia">Astronomia</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="/tecnologia"><i class="fas fa-microchip"></i> Tecnologia</a></li>
+                    <li class="nav-item health"><a href="/saude"><i class="fas fa-heartbeat"></i> Saúde</a></li>
+                    <li class="nav-item about"><a href="/sobre"><i class="fas fa-info-circle"></i> Sobre Nós</a></li>
+                    <li class="nav-item contact"><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
+                    {% if is_admin %}
+                        <li class="nav-item admin">
+                            <a href="{{ url_for('painel_admin') }}"><i class="fas fa-user-shield"></i> Painel Admin</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <div class="user-actions">
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <span class="logout-text">Logout</span>
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                
+            </div>
+<!-- Toggle invisível para controlar o tema -->
+<input type="checkbox" id="modo-toggle" hidden>
+
+<!-- Wrapper estilizado com base no tema -->
+<div class="page-wrapper">
+
+    <!-- Botão único de alternância -->
+    <div class="modo-toggle">
+        <label for="modo-toggle" id="modo-icon" title="Alternar modo de leitura/escuro"></label>
+    </div>
+
+    <!-- Resto da página... -->
+
+        </header>
+
+        <main>
+            <div class="content">
+                <iframe id="iframeposts" src="/iframeposts"></iframe>
+            </div>
+        </main>
+    </div>
 
     <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mode.js') }}"></script>
 </body>
+
+
 </html>

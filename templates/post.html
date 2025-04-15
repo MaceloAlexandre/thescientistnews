@@ -4,34 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
-    <title>{{ post.titulo }}</title>
+    <title>{{ post['titulo'] }}</title>
 </head>
 <body>
     <div class="container">
+        <div class="post">
+            <h1 class="post-title">{{ post['titulo'] }}</h1>
 
-    <div class="post">
-        <h1 class="post-title">{{ post.titulo }}</h1>
-        
-        <div class="post-meta">
-            <span>Por <strong>{{ post.autor }}</strong></span> | 
-            <span>{{ post.data_postagem.strftime('%d/%m/%Y %H:%M') }}</span> | 
-            <span class="post-category">{{ post.categoria }}</span>
-        </div>
-        
-        
-        <div class="post-text">
-            {{ post.texto }}
-        </div>
-        {% if post.midia %}
-        <div class="post-media">
-            <img src="{{ url_for('static', filename=post.midia) }}" alt="Mídia do post" style="max-width: 100%;">
-        </div>
+            <div class="post-meta">
+                <span>Por <strong>{{ post['nome_autor'] }}</strong></span> |
+                <span>{{ post['data_postagem'] }}</span> |
+                <span class="post-category">{{ post['categoria'] }}</span>
+            </div>
+
+            <div class="post-text">
+    {{ post['resumo'] or 'Sem texto disponível.' }}
+</div>
+
+         {% if post['midia'] %}
+    <div class="post-media">
+        {% if post['midia'][:4] == 'http' %}
+            <!-- Se for uma URL externa -->
+            <img src="{{ post['midia'] }}" alt="Mídia do post">
+        {% elif post['midia'] != 'Não informado' %}
+            <!-- Se for um arquivo no servidor e a mídia for válida -->
+            <img src="{{ url_for('static', filename=post['midia']) }}" alt="Mídia do post" >
+        {% else %}
+            <!-- Caso contrário, se a mídia não estiver informada -->
+            <p>Imagem não disponível.</p>
         {% endif %}
-        <div class="post-materia">
-            {{ post.materia }}
-        </div>
     </div>
-    </div>
+{% endif %}
 
+
+            <div class="post-materia">
+                {{ post['materia'] | safe }}
+            </div>
+            {% if post['fonte_original'] %}
+<div class="creditos">
+    <p>Créditos:</p>
+    <a href="{{ post['fonte_original'] }}" target="_blank">{{ post['fonte_original'] }}</a>
+</div>
+{% endif %}
+
+<!-- Comentários agora dentro da div .post -->
+<div class="comentarios">
+    {% if session['user'] %}
+    <form action="{{ url_for('comentar', post_id=post['id']) }}" method="POST">
+        <h3>Comentários</h3>
+        <textarea name="texto" rows="4" cols="50" placeholder="Escreva seu comentário aqui..."></textarea><br>
+        <button type="submit">Comentar</button>
+    </form>
+    <ul>
+        {% for comentario in comentarios %}
+        {% if not comentario['oculto'] %}
+        <li>
+            <strong>{{ comentario['nome_autor'] }}</strong> em {{ comentario['criado_em'] }}<br>
+            {{ comentario['conteudo'] }}
+
+            {% if session['user']['id'] == comentario['autor'] %}
+            <form action="{{ url_for('editar_comentario', id=comentario['id']) }}" method="POST" style="margin-top: 5px;">
+                <input type="text" name="novo_texto" value="{{ comentario['conteudo'] }}" required>
+                <button type="submit">Salvar edição</button>
+            </form>
+            {% endif %}
+
+            {% if session['user']['id'] == comentario['autor'] or session['user']['is_adm'] %}
+            <form action="{{ url_for('excluir_comentario', id=comentario['id']) }}" method="POST" style="display:inline;">
+                <button type="submit">Excluir</button>
+            </form>
+            {% endif %}
+
+            {% if session['user']['is_adm'] %}
+            <form action="{{ url_for('ocultar_comentario', id=comentario['id']) }}" method="POST" style="display:inline;">
+                <button type="submit">Ocultar</button>
+            </form>
+            {% endif %}
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p><a href="{{ url_for('login') }}">Faça login</a> para comentar.</p>
+    {% endif %}
+</div>
+
+</div> <!-- <- Fechando a div .post aqui -->
+</div> <!-- container -->
+
+<script src="{{ url_for('static', filename='js/mode.js') }}"></script>
 </body>
 </html>

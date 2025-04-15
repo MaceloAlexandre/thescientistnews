@@ -67,6 +67,9 @@
                     <li data-section="gerenciar">
                         <a href="#"><i class="fas fa-edit"></i> Gerenciar Posts</a>
                     </li>
+                    <li data-section="revisar">
+                        <a href="#"><i class="fas fa-check-circle"></i> Revisar Postagens</a>
+                    </li>
                     <li data-section="usuarios">
                         <a href="#"><i class="fas fa-users"></i> Usuários</a>
                     </li>
@@ -114,7 +117,7 @@
         <div class="form-group">
             <label for="post-category">Categoria</label>
             <select id="post-category" name="categoria" class="form-control" required>
-                <option value="">Selecione uma categoria</option>
+                <option value="Não informado">Selecione uma categoria</option>
                 <option value="fisica">Física</option>
                 <option value="quimica">Química</option>
                 <option value="biologia">Biologia</option>
@@ -136,6 +139,8 @@
             <textarea id="post-materia" name="materia" class="form-control" rows="10" placeholder="Digite o conteúdo completo da matéria..." required></textarea>
         </div>
 
+        <input type="hidden" id="fonte-original" name="fonte_original" value="">
+
         <!-- Ações -->
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
@@ -153,6 +158,35 @@
                 <h2 class="section-title"><i class="fas fa-edit"></i> Gerenciar Posts</h2>
                 <p>Aqui você poderá editar, excluir ou agendar postagens existentes.</p>
             </section>
+
+          <!-- Seção: Revisar Postagens -->
+<section class="admin-section" id="revisar">
+    <h2 class="section-title"><i class="fas fa-check-circle"></i> Revisar Postagens</h2>
+    
+    <div class="revisar-container">
+        <!-- Botão para buscar novos links -->
+        <button id="buscar-links" class="btn btn-primary">
+            <i class="fas fa-search"></i> Buscar Novos Links
+        </button>
+        
+        <!-- Estado de carregamento -->
+        <div id="loading-links" class="loading-state" style="display: none;">
+            <div class="spinner"></div>
+            <p>Buscando links para revisão...</p>
+        </div>
+        
+        <!-- Container para os links encontrados -->
+        <div id="links-container" class="links-grid" style="display: none;">
+            <!-- Os links serão inseridos aqui via JavaScript -->
+        </div>
+        
+        <!-- Mensagem quando não houver links -->
+        <div id="no-links-message" class="empty-state" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Nenhum link encontrado para revisão.</p>
+        </div>
+    </div>
+</section>
 
             <!-- Seção: Usuários -->
             <section class="admin-section" id="usuarios">
