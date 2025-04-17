@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/postagens_categoria.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_geral.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <title>{{ categoria.title() }} - Postagens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='imagens/testar4.png') }}" alt="The Scientist News Logo" class="logo">
+        </div>
+
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#"><i class="fas fa-atom"></i> Ciência <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/categoria/fisica">Física</a></li>
+                        <li><a href="/categoria/quimica">Química</a></li>
+                        <li><a href="/categoria/biologia">Biologia</a></li>
+                        <li><a href="/categoria/astronomia">Astronomia</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="/categoria/tecnologia"><i class="fas fa-microchip"></i> Tecnologia</a></li>
+                <li class="nav-item health"><a href="/categoria/saude"><i class="fas fa-heartbeat"></i> Saúde</a></li>
+                <li class="nav-item about"><a href="/sobre"><i class="fas fa-info-circle"></i> Sobre Nós</a></li>
+                <li class="nav-item contact"><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
+                {% if is_admin %}
+                    <li class="nav-item admin">
+                        <a href="{{ url_for('painel_admin') }}"><i class="fas fa-user-shield"></i> Painel Admin</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <div class="user-actions">
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <span class="logout-text">Logout</span>
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            
+        </div>
+<!-- Toggle invisível para controlar o tema -->
+<input type="checkbox" id="modo-toggle" hidden>
+
+<!-- Wrapper estilizado com base no tema -->
+<div class="page-wrapper">
+
+<!-- Botão único de alternância -->
+<div class="modo-toggle">
+    <label for="modo-toggle" id="modo-icon" title="Alternar modo de leitura/escuro"></label>
+</div>
+
+    </header>
+    <div class="container">
+        <h1>Postagens na categoria: {{ categoria.title() }}</h1>
+
+        <section class="posts">
+            {% for post in posts %}
+            <article class="post card  {{ post.categoria | replace(' ', '-') | replace('á', 'a') | replace('ã', 'a') | replace('ç', 'c') | replace('é', 'e') | replace('í', 'i') | replace('ó', 'o') | replace('ú', 'u') }}">            
+                <div class="post-header">
+                    <span class="user-name">{{ post.nome_autor }}</span>
+                    <span class="post-date">{{ post.data_postagem }}</span>
+                    <span class="post-category {{ post.categoria | replace(' ', '-') | replace('á', 'a') | replace('ã', 'a') | replace('ç', 'c') | replace('é', 'e') | replace('í', 'i') | replace('ó', 'o') | replace('ú', 'u') }}">{{ post.categoria }}</span>
+                </div>
+                <a href="{{ url_for('post', id=post.id) }}" class="post-link">
+                    <div class="post-content">
+    
+                        {% if post['midia'] %}
+        <div class="post-media">
+            {% if post['midia'][:4] == 'http' %}
+                <!-- Se for uma URL externa -->
+                <img src="{{ post['midia'] }}" alt="Mídia do post" style="max-width: 100%;">
+            {% elif post['midia'] != 'Não informado' %}
+                <!-- Se for um arquivo no servidor e a mídia for válida -->
+                <img src="{{ url_for('static', filename=post['midia']) }}" alt="Mídia do post" style="max-width: 100%;">
+            {% else %}
+                <!-- Caso contrário, se a mídia não estiver informada -->
+                <p>Imagem não disponível.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+                        <div class="post-footer">
+                            <h5>{{ post.titulo }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/mode.js') }}"></script>
+
+</body>
+</html>

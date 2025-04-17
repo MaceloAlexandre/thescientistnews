@@ -1,0 +1,267 @@
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: #000000;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+/* Modo escuro */
+body.dark-mode {
+    background: #121212 !important;
+    color: #f1f1f1 !important;
+  }
+  
+  /* Modo leitura */
+  body.reading-mode {
+    background: #fefae0 !important;
+    color: #2c2c2c !important;
+
+  }
+
+
+.posts {
+    display: grid;
+    grid-template-columns: repeat(3, 400px); /* 3 colunas de 300px cada */
+    justify-content: center; /* Centraliza o grid */
+    gap: 1.5rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.post {
+    background: white;
+    border-radius: 12px;
+    width: 400px; /* Largura fixa */
+    height: 440px; /* Altura fixa */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Garante que o conteúdo interno respeite a altura fixa */
+.post-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.post-content {
+    flex: 1; /* Ocupa o espaço restante */
+    padding: 1rem;
+    overflow: hidden; /* Previne vazamento de conteúdo */
+}
+
+
+.post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* HEADER DO POST (ATUALIZADO) */
+.post-header {
+    display: flex;
+    justify-content: space-between; /* Força a categoria para a direita */
+    align-items: center; /* Alinhamento vertical */
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    gap: 0.5rem; /* Espaço entre elementos */
+    overflow: hidden; /* Permite truncamento */
+}
+
+/* Container do autor + data (esquerda) */
+.post-header-info {
+    display: flex;
+    align-items: center;
+    min-width: 0; /* Permite que o texto seja truncado */
+    flex: 1; /* Ocupa todo espaço disponível */
+    gap: 0.5rem;
+}
+
+/* Nome do autor (truncado) */
+.user-name {
+    font-weight: 600;
+    color: #2c3e50;
+    white-space: nowrap; /* Impede quebra de linha */
+    overflow: hidden;
+    text-overflow: ellipsis;  /* "..." no overflow */
+    max-width: 120px; /* Ajuste conforme necessário */
+}
+
+/* Data (não truncada) */
+.post-date {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    white-space: nowrap;
+    flex-shrink: 0; /* Nunca encolhe */
+}
+
+/* Categoria (fixa à direita) */
+.post-category {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: auto;  /* Empurra para a direita */
+    flex-shrink: 0;  /* Nunca encolhe */
+    /* (Mantenha suas cores de categoria aqui) */
+}
+
+
+.post-category.entretenimento {
+    background-color: #FF9800; /* Rosa escuro */
+    color: white;
+}
+
+.post-category.saude {
+    background-color: #61c55c; /* Verde escuro */
+    color: white;
+}
+.post-category.Nao-informado {
+    background-color: #00bcd4;  /* Azul ciano claro */
+    color: white;
+}
+
+.post-category.fisica {
+    background-color: #3498db;
+    color: white;
+}
+
+.post-category.biologia {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.post-category.quimica {
+    background-color: #9b59b6;
+    color: white;
+}
+
+.post-category.astronomia {
+    background-color: #34495e;
+    color: white;
+}
+
+.post-category.tecnologia {
+    background-color: #6A4C93;
+    color: white;
+}
+
+.post-content {
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+.post-content h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #ffffff;
+    padding: 0px 10px;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center; /* Centraliza o texto */
+
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+    color: #34495e;
+}
+
+.post-link{
+    text-decoration: none;
+}
+
+/* Mídia do Post */
+.post-media {
+    height: 310px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center; /* isso alinha a imagem no centro horizontal */
+    align-items: center;     /* se quiser também centralizar verticalmente */
+    background-color: #000;  /* opcional, só pra ver o fundo */
+}
+
+.post-media img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .post-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .post-content {
+        padding: 1rem;
+    }
+    
+    .post-content h5 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Efeitos de Destaque */
+.post:nth-child(odd) {
+    background-color: #fefefe;
+}
+
+.post:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* Estrutura base */
+.post-footer {
+    height: 50px;
+    padding: 15px;
+    color: white !important;
+    text-align: center;
+    
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.card.saude .post-footer {
+    background-color: #61c55c; /* verde escuro */
+}
+
+.card.Nao-informado .post-footer {
+    background-color: #00bcd4; /* azul ciano claro */
+}
+/* Cores por categoria */
+.card.tecnologia .post-footer {
+    background-color: #6A4C93; /* azul */
+}
+
+.card.entretenimento .post-footer {
+    background-color: #FF9800; /* rosa escuro */
+}
+
+.card.ciencia .post-footer {
+    background-color: #0095B6; /* verde escuro */
+}
+
+.card.fisica .post-footer {
+    background-color: #3498db; /* laranja forte */
+}
+
+.card.biologia .post-footer {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.card.astronomia .post-footer {
+    background-color: #34495e; /* verde claro */
+    color: white;
+}

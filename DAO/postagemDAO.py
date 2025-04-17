@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Adiciona o diretório raiz do projeto ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from database import conectardb
 from models.postagem import Postagem
 
@@ -94,4 +100,43 @@ class PostagemDAO:
         finally:
             if cursor:
                 cursor.close()
+
+    def buscar_postagens_por_categoria(self, categoria_nome):
+        cursor = None
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute("""
+                SELECT * FROM postagens WHERE categoria = %s ORDER BY criado_em DESC
+            """, (categoria_nome,))
+            linhas =  cursor.fetchall()
+            cursor.close()
+
+            postagens = []
+            for linha in linhas:
+                data_postagem = linha[5]
+                data_formatada = data_postagem.strftime('%d/%m/%Y')
+                post = {
+                    "id": linha[0],
+                    "titulo": linha[1],
+                    "resumo": linha[2],            # resumo vira texto
+                    "materia": linha[3],
+                    "midia": linha[4],
+                    "data_postagem": data_formatada,
+                    "autor": linha[6],
+                    "categoria": linha[7],
+                    "nome_autor": linha[8],
+                    "fonte_original": linha[9]       # nome do autor
+
+                }
+                postagens.append(post)
+
+            return postagens
+        except Exception as e:
+            print(f"Erro ao buscar postagem: {e}")
+            return None
+        finally:
+            if cursor:
+                cursor.close()
+
+
 

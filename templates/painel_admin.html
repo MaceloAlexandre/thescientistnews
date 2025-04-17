@@ -20,14 +20,14 @@
                 <li class="nav-item dropdown">
                     <a href="#"><i class="fas fa-atom"></i> Ciência <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/ciencia/fisica">Física</a></li>
-                        <li><a href="/ciencia/quimica">Química</a></li>
-                        <li><a href="/ciencia/biologia">Biologia</a></li>
-                        <li><a href="/ciencia/astronomia">Astronomia</a></li>
+                        <li><a href="/categoria/fisica">Física</a></li>
+                        <li><a href="/categoria/quimica">Química</a></li>
+                        <li><a href="/categoria/biologia">Biologia</a></li>
+                        <li><a href="/categoria/astronomia">Astronomia</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a href="/tecnologia"><i class="fas fa-microchip"></i> Tecnologia</a></li>
-                <li class="nav-item health"><a href="/saude"><i class="fas fa-heartbeat"></i> Saúde</a></li>
+                <li class="nav-item"><a href="/categoria/tecnologia"><i class="fas fa-microchip"></i> Tecnologia</a></li>
+                <li class="nav-item health"><a href="/categoria/saude"><i class="fas fa-heartbeat"></i> Saúde</a></li>
                 <li class="nav-item about"><a href="/sobre"><i class="fas fa-info-circle"></i> Sobre Nós</a></li>
                 <li class="nav-item contact"><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
                 {% if is_admin %}
@@ -51,7 +51,6 @@
     </header>
     
     <div class="admin-container">
-        <!-- Sidebar Navigation -->
         <aside class="admin-sidebar">
             <div class="admin-profile">
                 <img src="{{ url_for('static', filename='imagens/admin-avatar.png') }}" alt="Admin Avatar" class="admin-avatar">
@@ -83,7 +82,6 @@
             </nav>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="admin-main">
             
 <!-- Seção: Criar Postagem -->
@@ -91,7 +89,6 @@
     <h2 class="section-title"><i class="fas fa-plus-circle"></i> Nova Postagem</h2>
     
     <form id="post-form" class="post-form" method="POST" action="/postar" enctype="multipart/form-data">
-        <!-- Upload de Imagem -->
         <div class="form-group image-upload-container">
             <label>Imagem Destacada (Proporção 16:9)</label>
             <div class="image-preview" id="imagePreview">
@@ -107,13 +104,11 @@
             <input type="file" id="file-upload" name="midia" accept="image/*">
         </div>
 
-        <!-- Título -->
         <div class="form-group">
             <label for="post-title">Título da Postagem</label>
             <input type="text" id="post-title" name="titulo" class="form-control" placeholder="Digite o título" required>
         </div>
 
-        <!-- Categoria -->
         <div class="form-group">
             <label for="post-category">Categoria</label>
             <select id="post-category" name="categoria" class="form-control" required>
@@ -127,13 +122,11 @@
             </select>
         </div>
 
-        <!-- Resumo da Matéria -->
         <div class="form-group">
             <label for="post-summary">Resumo da Matéria</label>
             <textarea id="post-summary" name="resumo" class="form-control" rows="3" placeholder="Digite um resumo curto sobre a matéria" required></textarea>
         </div>
 
-        <!-- Matéria (texto principal) -->
         <div class="form-group">
             <label for="post-materia">Matéria (Corpo Principal)</label>
             <textarea id="post-materia" name="materia" class="form-control" rows="10" placeholder="Digite o conteúdo completo da matéria..." required></textarea>
@@ -141,7 +134,6 @@
 
         <input type="hidden" id="fonte-original" name="fonte_original" value="">
 
-        <!-- Ações -->
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-paper-plane"></i> Publicar Postagem
@@ -169,18 +161,15 @@
             <i class="fas fa-search"></i> Buscar Novos Links
         </button>
         
-        <!-- Estado de carregamento -->
         <div id="loading-links" class="loading-state" style="display: none;">
             <div class="spinner"></div>
             <p>Buscando links para revisão...</p>
         </div>
         
-        <!-- Container para os links encontrados -->
         <div id="links-container" class="links-grid" style="display: none;">
             <!-- Os links serão inseridos aqui via JavaScript -->
         </div>
         
-        <!-- Mensagem quando não houver links -->
         <div id="no-links-message" class="empty-state" style="display: none;">
             <i class="fas fa-exclamation-circle"></i>
             <p>Nenhum link encontrado para revisão.</p>
